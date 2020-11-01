@@ -21,7 +21,8 @@ slots:
   facility_type:
     type: text
   address:
-    type: unfeaturized
+    type: text
+    influence_conversation: False
 
 actions:
   - action_facility_search
