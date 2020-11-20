@@ -2,61 +2,71 @@ version: "2.0"
 
 stories:
 
-- story: search hospital happy path
+- story: happy_path
   steps:
   - intent: greet
-  - action: utter_how_can_i_help
-  - intent: search_provider
-    entities:
-      - facility_type: "hospital"
-      - location: "Helsinki"
-  - action: action_facility_search
-  - slot_was_set:
-      - address: "300 Hyde St., Espoo"
-  - intent: affirm
-  - action: utter_goodbye
-
-
-- story: search hospital + location
-  steps:
-  - intent: greet
-  - action: utter_how_can_i_help
-  - intent: search_provider
-    entities:
-      - facility_type: "hospital"
-  - action: utter_ask_location
+  - action: find_facility_types
   - intent: inform
     entities:
-      - location: "Helsinki"
-  - action: action_facility_search
-  - slot_was_set:
-      - address: "300 Hyde St., Espoo"
-  - intent: affirm
+      - facility_type: rbry-mqwu
+  - action: facility_form
+  - active_loop: facility_form
+  - intent: inform
+    entities:
+      - facility_id: 4245
+  - action: find_healthcare_address
+  - action: utter_address
+  - intent: thanks
   - action: utter_goodbye
 
-- story: happy path
+- story: happy_path2
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
+  - intent: search_provider
+    entities:
+      - location: Austin
+      - facility_type: rbry-mqwu
+  - action: facility_form
+  - active_loop: facility_form
+  - intent: inform
+    entities:
+      - facility_id: '450871'
+  - action: find_healthcare_address
+  - action: utter_address
+  - intent: thanks
   - action: utter_goodbye
+
+- story: happy_path_multi_requests
+  steps:
+  - intent: greet
+  - action: find_facility_types
+  - intent: inform
+    entities:
+    - facility_type: xubh-q36u
+  - action: facility_form
+  - active_loop: facility_form
+  - intent: inform
+    entities:
+    - facility_id: '747604'
+  - action: find_healthcare_address
+  - action: utter_address
+  - intent: search_provider
+    entities:
+    - facility_type: xubh-q36u
+  - action: facility_form
+  - active_loop: facility_form
+  - intent: inform
+    entities:
+    - facility_id: 4245
+  - action: find_healthcare_address
+  - action: utter_address
+
+- story: story_goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story_thankyou
+  steps:
+  - intent: thanks
+  - action: utter_noworries
+
