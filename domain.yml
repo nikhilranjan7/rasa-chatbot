@@ -17,13 +17,15 @@ entities:
 
 slots:
   facility_type:
-    type: unfeaturized
+    type: text
   facility_address:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   facility_id:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   location:
-    type: unfeaturized
+    type: text
 
 forms:
   facility_form:
@@ -76,6 +78,3 @@ responses:
 actions:
   - find_facility_types
   - find_healthcare_address
-  - validate_facility_form
-  - submit_facility_form
-  - action_two_stage_fallback
