@@ -1,80 +1,73 @@
-version: "2.0"
-
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - inform
-  - search_provider
-  - thanks
-  - bot_challenge
-
+- greet
+- goodbye
+- affirm
+- deny
+- inform
+- thanks
+- bot_challenge
+- sim_card
+- billing_address
+- name_reply
+- mood_great
+- mood_unhappy
+- out_of_scope
 entities:
-  - location
-  - facility_type
-  - facility_id
-
+- location
+- name
 slots:
-  facility_type:
-    type: text
-  facility_address:
-    type: text
-    influence_conversation: false
-  facility_id:
+  initial_location:
     type: text
     influence_conversation: false
   location:
     type: text
-
-forms:
-  facility_form:
-    facility_type:
-      - type: from_entity
-        entity: facility_type
-        intent:
-          - inform
-          - search_provider
-    location:
-      - type: from_entity
-        entity: location
-        intent:
-          - inform
-          - search_provider
-
+    influence_conversation: true
+  name:
+    type: text
+    influence_conversation: true
 responses:
   utter_greet:
-    - text: Hi. What are you looking for?
-    - text: Hey there! Please choose one of the healthcare facility options >
-    - text: Hello! What can I help you find today?
-
+  - text: Hi. What are you looking for?
+  - text: Hello! What can I help you with today?
   utter_goodbye:
-    - text: Talk to you later!
-    - text: Have a good day.
-    - text: Until next time!
-
+  - text: Talk to you later!
+  - text: Have a good day.
+  - text: Until next time!
   utter_noworries:
-    - text: My pleasure.
-    - text: You are welcome!
-
-  utter_ask_facility_type:
-    - text: Choose one of the following to search for> hospital, nursing home, or home health agency.
-
+  - text: My pleasure.
+  - text: You are welcome!
   utter_ask_location:
-    - text: Please provide your city name.
-    - text: What is your current city?
-    - text: Please provide your city name or zip code.
-    - text: Please enter your zip code or city name to find local providers.
-
+  - text: Please provide your city name.
+  - text: What is your current city?
+  - text: Please provide your city name or zip code.
+  - text: Please enter your zip code or city name.
+  utter_ask_name:
+  - text: May I have you first name ?
+  - text: Hi, I am bot. What can I call you ?
+  - text: May I know your name ?
   utter_address:
-    - text: The address is {facility_address}.
-
+  - text: Your registered address was {initial_location}. You request to change it
+      to {location} has been successfully processed.
   utter_iamabot:
-    - text: I am a bot, powered by Rasa.
-
+  - text: I am a bot, powered by Rasa.
   utter_ask_rephrase:
-    - text: I'm sorry, I didn't quite understand that. Could you rephrase?
-
-actions:
-  - find_facility_types
-  - find_healthcare_address
+  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+  utter_complete:
+  - text: Ok {name}. Your request was completed successfully.
+forms:
+  sim_form:
+    name:
+    - entity: name
+      intent:
+      - greet
+      - name_reply
+      type: from_entity
+  address_form:
+    location:
+    - entity: location
+      intent:
+      - inform
+      type: from_entity

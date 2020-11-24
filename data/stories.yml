@@ -1,26 +1,42 @@
 version: "2.0"
 
 stories:
-- story: happy_path
+- story: sim_card_name_path
   steps:
   - intent: greet
-  - action: find_facility_types
-  - intent: inform
     entities:
-    - facility_type: xubh-q36u
-  - action: facility_form
-  - active_loop: facility_form
-  - slot_was_set:
-    - facility_type: xubh-q36u
-    - location: Helsinki
-  - active_loop: null
-  # - intent: inform
-  #   entities:
-  #   - facility_id: 4245
-  - action: find_healthcare_address
-  - action: utter_address
+      - name: Nikhil
+  - action: utter_greet
+  - intent: sim_card 
+  - action: utter_complete
   - intent: thanks
   - action: utter_noworries
+
+- story: sim_card_form_path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: sim_card 
+  - action: sim_form
+  - active_loop: sim_form
+  - slot_was_set:
+    - name: Nikhil
+  - active_loop: null
+  - action: utter_complete
+  - intent: thanks
+  - action: utter_noworries
+
+- story: billing_address_path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: billing_address
+  - action: address_form
+  - active_loop: sim_form
+  - slot_was_set:
+    - location: Helsinki
+  - active_loop: null
+  - action: utter_address
 
 # - story: happy_path_multi_requests
 #   steps:
@@ -63,12 +79,12 @@ stories:
 #   - intent: thanks
 #   - action: utter_noworries
 
-# - story: story_goodbye
-#   steps:
-#   - intent: goodbye
-#   - action: utter_goodbye
+- story: story_goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
 
-# - story: story_thankyou
-#   steps:
-#   - intent: thanks
-#   - action: utter_noworries
+- story: story_thankyou
+  steps:
+  - intent: thanks
+  - action: utter_noworries
